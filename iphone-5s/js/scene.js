@@ -1,9 +1,9 @@
 import * as THREE from "three";
 import {
-  createPhoneModel,
+  loadPhoneModel,
   createChipModel,
   createCameraMacroModel,
-  createButtonMacroModel,
+  createTouchIdMacroModel,
 } from "./phone.js";
 
 export function createScene(canvas) {
@@ -43,21 +43,26 @@ export function createScene(canvas) {
   fill.position.set(-3, 2, 3);
   scene.add(fill);
 
-  // Models
-  const phone = createPhoneModel("ultramarine");
-  scene.add(phone);
-
+  // Procedural models are ready immediately
   const chip = createChipModel();
   chip.visible = false;
   scene.add(chip);
 
-  const cameraMacro = createCameraMacroModel("ultramarine");
+  const cameraMacro = createCameraMacroModel("silver");
   cameraMacro.visible = false;
   scene.add(cameraMacro);
 
-  const buttonMacro = createButtonMacroModel("ultramarine");
-  buttonMacro.visible = false;
-  scene.add(buttonMacro);
+  const touchIdMacro = createTouchIdMacroModel("silver");
+  touchIdMacro.visible = false;
+  scene.add(touchIdMacro);
+
+  const models = { phone: null, chip, cameraMacro, touchIdMacro };
+
+  const ready = loadPhoneModel("silver").then((phone) => {
+    scene.add(phone);
+    models.phone = phone;
+    return phone;
+  });
 
   function resize() {
     const w = window.innerWidth;
@@ -79,8 +84,10 @@ export function createScene(canvas) {
       cameraMacro.userData.halo.material.opacity = 0.25 + Math.sin(t * 1.5) * 0.12;
       cameraMacro.userData.halo.rotation.z = t * 0.15;
     }
-    if (buttonMacro.userData.scan) {
-      buttonMacro.userData.scan.material.opacity = 0.3 + Math.sin(t * 3) * 0.2;
+    if (touchIdMacro.userData.grooves) {
+      touchIdMacro.userData.grooves.forEach((g, i) => {
+        g.material.opacity = 0.2 + Math.sin(t * 1.4 + i * 0.6) * 0.15;
+      });
     }
     renderer.render(scene, camera);
     raf = requestAnimationFrame(render);
@@ -97,7 +104,7 @@ export function createScene(canvas) {
   function dispose() {
     stop();
     window.removeEventListener("resize", resize);
-    [phone, chip, cameraMacro, buttonMacro].forEach((g) => g.userData.dispose?.());
+    [models.phone, chip, cameraMacro, touchIdMacro].forEach((g) => g?.userData.dispose?.());
     renderer.dispose();
   }
 
@@ -105,7 +112,8 @@ export function createScene(canvas) {
     renderer,
     scene,
     camera,
-    models: { phone, chip, cameraMacro, buttonMacro },
+    models,
+    ready,
     start,
     stop,
     dispose,

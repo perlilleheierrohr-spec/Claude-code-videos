@@ -1,0 +1,11 @@
+Model Information:
+* title:	IPhone 5s
+* source:	https://sketchfab.com/3d-models/iphone-5s-2a8b3bd5333d4f1899a67d5dca6b24ab
+* author:	Eternal Realm (https://sketchfab.com/EternalRealm)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "IPhone 5s" (https://sketchfab.com/3d-models/iphone-5s-2a8b3bd5333d4f1899a67d5dca6b24ab) by Eternal Realm (https://sketchfab.com/EternalRealm) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

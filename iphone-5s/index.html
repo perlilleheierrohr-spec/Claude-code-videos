@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>iPhone 5s — Touch ID. 64-bit. The original icon.</title>
+<meta name="description" content="A retrospective concept page for the iPhone 5s (2013) — the first 64-bit phone and the debut of Touch ID — built with real-time 3D (Three.js) and scroll-driven animation (GSAP)." />
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three/three.module.js",
+    "three/addons/": "./vendor/three/addons/"
+  }
+}
+</script>
+<script src="vendor/gsap/gsap.min.js"></script>
+<script src="vendor/gsap/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+<canvas id="webgl" aria-hidden="true"></canvas>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" data-reveal>
+  <div class="site-header__inner">
+    <a class="wordmark" href="#top">iPhone 5s</a>
+    <nav class="primary-nav" aria-label="Primary">
+      <a href="#design">Design</a>
+      <a href="#camera">Camera</a>
+      <a href="#chip">Chip</a>
+      <a href="#touchid">Touch ID</a>
+      <a href="#colors">Colors</a>
+      <a href="#specs">Specs</a>
+    </nav>
+    <a class="btn btn--ghost btn--small" href="#legacy">Legacy</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section id="top" class="section hero" data-camera-scene="hero">
+    <div class="hero__copy" data-reveal>
+      <p class="eyebrow">iPhone 5s &middot; 2013</p>
+      <h1 class="display display--giant">Forward,<br />by your thumb.</h1>
+      <p class="lede">The first 64-bit chip in a phone. The first Touch ID
+        sensor. A decade-plus later, the iPhone 5s still set the template
+        every iPhone since has followed. Drag to rotate, scroll to explore
+        &mdash; every piece below is a real-time 3D model, not a photo.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#legacy">See why it mattered</a>
+        <a class="btn btn--ghost" href="#design">Explore the design ↓</a>
+      </div>
+    </div>
+    <p class="scroll-hint" aria-hidden="true">Scroll<span></span></p>
+  </section>
+
+  <!-- DESIGN / EXPLODED VIEW -->
+  <section id="design" class="section section--tall" data-camera-scene="design">
+    <div class="panel panel--left" data-reveal>
+      <p class="eyebrow">Design</p>
+      <h2 class="display">Same shape.<br />New finish.</h2>
+      <p class="body-text">The 5s kept the iPhone 5's anodized aluminum
+        unibody and 4-inch Retina display, but introduced two finishes that
+        would define Apple's palette for years: Space Gray and Gold. Keep
+        scrolling and watch it come apart, piece by piece.</p>
+      <ul class="fact-list">
+        <li><strong>Aluminum unibody</strong> in three finishes</li>
+        <li><strong>4-inch Retina</strong> display, 1136 × 640 at 326 ppi</li>
+        <li><strong>112 grams</strong> &mdash; slimmer and lighter than the 5</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CAMERA -->
+  <section id="camera" class="section section--tall" data-camera-scene="camera">
+    <div class="panel panel--right" data-reveal>
+      <p class="eyebrow">Camera</p>
+      <h2 class="display">One lens.<br />Two-tone flash.</h2>
+      <p class="body-text">The 5s introduced True Tone flash &mdash; two LEDs,
+        warm and cool, blended for over 1,000 combinations to match ambient
+        light. Paired with larger 1.5&micro;m pixels for real gains in low light.</p>
+      <div class="spec-pair">
+        <div>
+          <span class="spec-pair__num">8MP</span>
+          <span class="spec-pair__label">iSight camera</span>
+        </div>
+        <div>
+          <span class="spec-pair__num">120fps</span>
+          <span class="spec-pair__label">Slo-mo video</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHIP -->
+  <section id="chip" class="section section--tall" data-camera-scene="chip">
+    <div class="panel panel--left" data-reveal>
+      <p class="eyebrow">Performance</p>
+      <h2 class="display">A7. The chip<br />that changed phones.</h2>
+      <p class="body-text">The first 64-bit chip in any smartphone &mdash;
+        twice the registers, twice the general-purpose registers, up to 2x
+        the performance of the A6. The M7 motion coprocessor, sitting
+        alongside it, quietly launched an entire fitness-tracking industry.</p>
+      <ul class="fact-list">
+        <li><strong>64-bit architecture</strong> &mdash; a first for phones</li>
+        <li><strong>M7 motion coprocessor</strong> for always-on sensor data</li>
+        <li><strong>Up to 2x</strong> CPU &amp; graphics vs. A6</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- TOUCH ID -->
+  <section id="touchid" class="section section--tall" data-camera-scene="touchid">
+    <div class="panel panel--right" data-reveal>
+      <p class="eyebrow">Touch ID</p>
+      <h2 class="display">Press.<br />You're in.</h2>
+      <p class="body-text">A capacitive fingerprint sensor built into the
+        Home button, covered in sapphire crystal. It read sub-epidermal
+        skin layers at 500 ppi &mdash; and it's the reason unlocking your
+        phone with a finger feels completely unremarkable today.</p>
+    </div>
+  </section>
+
+  <!-- COLORS -->
+  <section id="colors" class="section section--tall section--colors" data-camera-scene="colors">
+    <div class="panel panel--center" data-reveal>
+      <p class="eyebrow">Colors</p>
+      <h2 class="display">Three finishes.<br />One icon.</h2>
+      <p class="body-text">Tap a swatch &mdash; the model updates in real time.</p>
+      <div class="swatches" role="group" aria-label="Choose a color">
+        <!-- populated by JS -->
+      </div>
+      <p class="color-name" data-color-name>Silver</p>
+    </div>
+  </section>
+
+  <!-- SPECS -->
+  <section id="specs" class="section section--content">
+    <div class="specs-wrap" data-reveal>
+      <p class="eyebrow">Tech specs</p>
+      <h2 class="display">The whole story.</h2>
+      <div class="specs-grid">
+        <div class="specs-card">
+          <h3>Display</h3>
+          <p>4&Prime; Retina IPS LCD<br />1136 × 640 at 326 ppi</p>
+        </div>
+        <div class="specs-card">
+          <h3>Chip</h3>
+          <p>A7, 64-bit architecture<br />M7 motion coprocessor</p>
+        </div>
+        <div class="specs-card">
+          <h3>Camera</h3>
+          <p>8MP iSight, f/2.2<br />True Tone flash, 1080p video</p>
+        </div>
+        <div class="specs-card">
+          <h3>Battery</h3>
+          <p>Up to 10 hours talk time<br />250 hours standby</p>
+        </div>
+        <div class="specs-card">
+          <h3>Security</h3>
+          <p>Touch ID fingerprint sensor<br />Sapphire crystal cover</p>
+        </div>
+        <div class="specs-card">
+          <h3>Connectivity</h3>
+          <p>LTE, Bluetooth 4.0<br />802.11a/b/g/n Wi‑Fi</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEGACY -->
+  <section id="legacy" class="section section--cta">
+    <div data-reveal>
+      <h2 class="display display--giant">iPhone 5s</h2>
+      <p class="lede">Launched September 2013 at $199&ndash;$399 on contract.
+        Discontinued 2016. Still the phone that decided what came next.</p>
+      <div class="hero__actions hero__actions--center">
+        <a class="btn btn--primary" href="#top">Relive the launch</a>
+        <a class="btn btn--ghost" href="#specs">Full specs</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Retrospective concept build for demonstration purposes &mdash; not an
+    Apple product or an active product listing.
+    3D scene built with Three.js, animated with GSAP, styled with the
+    <strong>sleek</strong> and <strong>perspective</strong> design skills.</p>
+  <p>Phone model: this work is based on
+    "<a href="https://sketchfab.com/3d-models/iphone-5s-2a8b3bd5333d4f1899a67d5dca6b24ab" target="_blank" rel="noopener">IPhone 5s</a>"
+    by <a href="https://sketchfab.com/EternalRealm" target="_blank" rel="noopener">Eternal Realm</a>,
+    licensed under <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC-BY-4.0</a>.</p>
+</footer>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
