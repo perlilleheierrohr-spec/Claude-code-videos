@@ -1,0 +1,610 @@
+/* ==========================================================================
+   John Drange Ognby - Bed & Breakfast
+   Varm, rustikk fargepalett i jordtoner/grønt/beige
+   ========================================================================== */
+
+:root {
+  --color-forest: #3a4a2f;
+  --color-forest-light: #5c6b47;
+  --color-clay: #8a6d4b;
+  --color-clay-dark: #6b5238;
+  --color-cream: #f7f2e9;
+  --color-cream-dark: #efe6d6;
+  --color-text: #33302a;
+  --color-text-light: #6b6255;
+  --color-white: #ffffff;
+  --color-gold: #c9a24b;
+
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --max-width: 1180px;
+  --radius: 10px;
+  --shadow-soft: 0 10px 30px rgba(58, 74, 47, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background-color: var(--color-cream);
+  line-height: 1.65;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  color: var(--color-forest);
+  line-height: 1.2;
+  margin: 0 0 0.5em;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 0.75em;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section {
+  padding: 5rem 0;
+}
+
+.section-intro {
+  max-width: 65ch;
+  color: var(--color-text-light);
+}
+
+.note {
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+  font-style: italic;
+}
+
+/* -------------------- Buttons -------------------- */
+
+.btn {
+  display: inline-block;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--color-gold);
+  color: var(--color-forest);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border-color: var(--color-white);
+  color: var(--color-white);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.btn-small {
+  padding: 0.55rem 1.1rem;
+  font-size: 0.9rem;
+}
+
+/* -------------------- Header -------------------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(58, 74, 47, 0.96);
+  backdrop-filter: blur(4px);
+  color: var(--color-cream);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+  gap: 1rem;
+}
+
+.logo {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-cream);
+  white-space: nowrap;
+}
+
+.main-nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap: 1.75rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-list a {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-cream);
+  opacity: 0.9;
+}
+
+.nav-list a:hover {
+  opacity: 1;
+  border-bottom: 2px solid var(--color-gold);
+}
+
+.header-cta {
+  white-space: nowrap;
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+}
+
+.nav-toggle span {
+  width: 24px;
+  height: 2px;
+  background-color: var(--color-cream);
+}
+
+/* -------------------- Hero -------------------- */
+
+.hero {
+  position: relative;
+  min-height: 88vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(30, 40, 25, 0.35) 0%, rgba(30, 40, 25, 0.65) 100%);
+}
+
+.hero-content {
+  position: relative;
+  color: var(--color-white);
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-content h1 {
+  color: var(--color-white);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  margin-bottom: 0.3em;
+}
+
+.hero-tagline {
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  font-weight: 400;
+  margin-bottom: 0.3em;
+}
+
+.hero-sub {
+  font-size: 1.05rem;
+  opacity: 0.9;
+  margin-bottom: 2em;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* -------------------- Om oss -------------------- */
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.col-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.highlight-card {
+  background-color: var(--color-white);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-soft);
+  border-left: 4px solid var(--color-gold);
+}
+
+.highlight-icon {
+  font-size: 1.8rem;
+}
+
+.highlight-card h3 {
+  font-size: 1.15rem;
+  margin: 0.4em 0 0.3em;
+}
+
+.highlight-card p {
+  margin: 0;
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+}
+
+/* -------------------- Rom -------------------- */
+
+.rom {
+  background-color: var(--color-cream-dark);
+}
+
+.room-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.room-card {
+  background-color: var(--color-white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.room-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.room-card-body {
+  padding: 1.5rem;
+}
+
+.room-card-body h3 {
+  font-size: 1.25rem;
+}
+
+.price-placeholder {
+  font-weight: 700;
+  color: var(--color-clay-dark);
+}
+
+.season-note {
+  margin-top: 2rem;
+  font-weight: 700;
+  color: var(--color-forest-light);
+}
+
+/* -------------------- Galleri -------------------- */
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.gallery-grid img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: var(--radius);
+  transition: transform 0.25s ease;
+}
+
+.gallery-grid img:hover {
+  transform: scale(1.03);
+}
+
+/* -------------------- Anmeldelser -------------------- */
+
+.anmeldelser {
+  background-color: var(--color-forest);
+  color: var(--color-cream);
+}
+
+.anmeldelser h2 {
+  color: var(--color-cream);
+  text-align: center;
+}
+
+.rating-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 3rem;
+}
+
+.rating-score {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--color-gold);
+}
+
+.rating-stars {
+  color: var(--color-gold);
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+
+.rating-count {
+  color: rgba(247, 242, 233, 0.75);
+  font-size: 0.9rem;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.review-card {
+  background-color: rgba(247, 242, 233, 0.08);
+  border: 1px solid rgba(247, 242, 233, 0.15);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  margin: 0;
+}
+
+.review-card p {
+  font-style: italic;
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+}
+
+.review-card cite {
+  font-weight: 700;
+  font-style: normal;
+  color: var(--color-gold);
+}
+
+/* -------------------- Kart -------------------- */
+
+.kart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 2.5rem;
+  align-items: stretch;
+  margin-top: 2rem;
+}
+
+.kart-info {
+  background-color: var(--color-white);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.kart-embed {
+  min-height: 350px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.kart-embed iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 350px;
+}
+
+/* -------------------- Kontakt -------------------- */
+
+.kontakt {
+  background-color: var(--color-cream-dark);
+}
+
+.contact-phone a {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-clay-dark);
+}
+
+.contact-address {
+  color: var(--color-text-light);
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background-color: var(--color-white);
+  padding: 1.75rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+
+.contact-form label {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-top: 0.6rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  padding: 0.7rem;
+  border: 1px solid #d8cfbc;
+  border-radius: 6px;
+  background-color: var(--color-cream);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 1px;
+}
+
+.contact-form button {
+  margin-top: 1rem;
+  align-self: flex-start;
+}
+
+.form-status {
+  font-size: 0.9rem;
+  color: var(--color-forest-light);
+  min-height: 1.2em;
+}
+
+/* -------------------- Footer -------------------- */
+
+.site-footer {
+  background-color: var(--color-forest);
+  color: var(--color-cream);
+  padding-top: 3rem;
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(247, 242, 233, 0.15);
+}
+
+.footer-title {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  margin-bottom: 0.2em;
+}
+
+.footer-contact a {
+  font-weight: 700;
+}
+
+.footer-rating {
+  color: var(--color-gold);
+}
+
+.footer-bottom {
+  padding: 1.25rem 1.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(247, 242, 233, 0.6);
+}
+
+/* -------------------- Responsive -------------------- */
+
+@media (max-width: 900px) {
+  .two-col,
+  .kart-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kart-embed {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 760px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .main-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--color-forest);
+  }
+
+  .nav-list {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    width: 100%;
+  }
+
+  .nav-list.open {
+    max-height: 400px;
+  }
+
+  .nav-list li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-list a {
+    display: block;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(247, 242, 233, 0.1);
+  }
+
+  .header-cta {
+    display: none;
+  }
+
+  .section {
+    padding: 3.5rem 0;
+  }
+}
