@@ -1,54 +1,77 @@
 # Aureus
 
-A premium coin-collector iOS app UI, built with **React Native + Expo**. Think
-finance app, but for coins — a dark collector's vault with warm gold accents.
+A coin-collector iOS app built with **React Native + Expo**: point your camera
+at a coin, and AI identifies it and estimates its value. Styled as a premium
+dark/gold collector's vault.
 
-## Screens
+This is a **fully functional app**, not a mockup — real authentication, real
+camera + AI scanning, and a real cloud-synced collection.
 
-The app uses bottom-tab navigation across three screens:
+## What it does
 
 | Tab | What's on it |
 | --- | --- |
-| **Scan** | Full-screen camera placeholder with a circular viewfinder and a gold capture button. Tapping capture reveals a results card: coin name, country, year, estimated value range, and a rarity badge. |
-| **Collection** | A two-column grid of mock coins, each with a circular coin photo placeholder, name, country/year, and value. Header shows total vault value. |
-| **Dashboard** | Total collection value shown prominently, a donut chart breaking value down by country (with legend), and a Top 5 most valuable coins list. |
+| **Scan** | Real camera with a circular viewfinder. Tap the gold button → the photo is sent to Claude vision, which returns the coin's name, country, year, metal, an estimated value range, a rarity tier, and a short rationale. Add it to your collection with one tap. |
+| **Collection** | Your real coins, synced to the cloud — circular photo, name, country/year, and value. Long-press to remove. |
+| **Dashboard** | Total collection value, a donut breakdown by country, and your top 5 most valuable coins — all computed from your real data. |
 
-## Design system
+## How it works
 
-All tokens live in [`src/theme.js`](src/theme.js):
+```
+ App (Expo / React Native)
+   │  camera photo (base64)
+   ▼
+ Supabase Edge Function  ──►  Claude Opus 4.8 (vision)  ──►  structured JSON
+   │  (holds the Anthropic API key, server-side)
+   ▼
+ Supabase Postgres + Storage  (per-user collection, row-level security)
+```
 
-- **Background** — near-black (`#0B0B0F`) with layered charcoal surfaces
-- **Accent** — a single warm gold family (`#D4AF37`)
-- **Type** — restrained weights, generous letter-spacing on labels
-- Rarity tiers (Common → Legendary) each carry their own color
+- **Auth & data:** Supabase (email/password, Postgres, Storage).
+- **AI:** Claude vision via a Supabase Edge Function, so the Anthropic API key
+  is never shipped in the app. Output is constrained to a strict JSON schema.
+- **No mock data:** the collection starts empty and fills from real scans.
+
+## Setup
+
+Running this requires connecting your own free Supabase project and an Anthropic
+API key. **Follow [SETUP.md](SETUP.md)** — it walks through every step
+(including getting the API key) in about 20 minutes.
+
+Quick version, once configured:
+
+```bash
+npm install
+npx expo start     # then scan the QR code with Expo Go on your iPhone
+```
+
+## A note on value estimates
+
+The AI returns a **reasoned estimate range**, not a certified appraisal. Real
+coin value depends on grade, condition, and mint mark — hard to judge from a
+phone photo — and there's no live price feed. See the end of
+[SETUP.md](SETUP.md) for details.
 
 ## Project structure
 
 ```
-App.js                      # Bottom-tab navigator + nav theme
-index.js                    # Expo entry point
+App.js                       # Auth gate + bottom-tab navigator
 src/
-  theme.js                  # Colors, spacing, radius, typography, shadows
-  data/mockData.js          # Mock coins + derived dashboard data
-  components/
-    CoinAvatar.js           # SVG circular coin placeholder (milled edge)
-    RarityBadge.js          # Rarity pill
-    DonutChart.js           # SVG donut (no chart library)
-  screens/
-    ScanScreen.js
-    CollectionScreen.js
-    DashboardScreen.js
+  theme.js                   # Design tokens (dark ground, gold accent)
+  lib/
+    supabase.js              # Supabase client (session persistence)
+    format.js                # Currency + rarity helpers
+  context/
+    AuthContext.js           # Session state, sign in/up/out
+    CoinsContext.js          # The user's coins, shared across screens
+  api/
+    scan.js                  # Calls the scan-coin Edge Function
+    coins.js                 # Collection CRUD + photo upload
+  components/                # CoinAvatar, CoinImage, RarityBadge, DonutChart
+  screens/                   # Auth, Scan, Collection, Dashboard
+supabase/
+  functions/scan-coin/       # Edge Function calling Claude vision
+  migrations/0001_init.sql   # Tables, RLS, storage bucket
 ```
 
-Charts and coin art are drawn with `react-native-svg` — no chart dependency.
-
-## Running
-
-```bash
-npm install
-npm start        # then press i (iOS), a (Android), or w (web)
-```
-
-> **Note:** App icon and splash images are intentionally omitted. Drop your
-> assets into an `assets/` folder and re-add the `icon` / `splash` / `favicon`
-> keys in [`app.json`](app.json) when ready.
+> App icon and splash images live in `assets/` (add `assets/icon.png`).

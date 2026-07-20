@@ -82,9 +82,10 @@ export const shadow = {
   },
 };
 
-/** Per-country accent colors used by the dashboard donut. */
+/** Preferred accent colors for common countries on the dashboard donut. */
 export const countryColors = {
   USA: '#D4AF37',
+  'United States': '#D4AF37',
   'United Kingdom': '#4F86C6',
   Canada: '#C6564F',
   Australia: '#5FA987',
@@ -92,3 +93,23 @@ export const countryColors = {
   Germany: '#E08A3C',
   Other: '#6C6A78',
 };
+
+/** Fallback palette for countries not in `countryColors`. */
+export const chartPalette = [
+  '#D4AF37',
+  '#4F86C6',
+  '#C6564F',
+  '#5FA987',
+  '#9B72CF',
+  '#E08A3C',
+  '#4FB0C6',
+  '#C68F4F',
+  '#8B6CCF',
+  '#C64F97',
+];
+
+/** Deterministic color for a country: preferred if known, else palette by hash. */
+export function colorForCountry(country, index = 0) {
+  if (countryColors[country]) return countryColors[country];
+  return chartPalette[index % chartPalette.length];
+}

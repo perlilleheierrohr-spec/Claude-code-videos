@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, radius, typography } from '../theme';
-import { RARITIES } from '../data/mockData';
+import { RARITIES } from '../lib/format';
 
 const ICONS = {
   common: 'ellipse-outline',

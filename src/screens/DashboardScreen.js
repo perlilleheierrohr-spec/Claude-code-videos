@@ -1,29 +1,32 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+  ActivityIndicator,
+  RefreshControl,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, spacing, radius, typography, shadow, countryColors } from '../theme';
-import {
-  totalValue,
-  valueByCountry,
-  topCoins,
-  coins,
-  formatCurrency,
-} from '../data/mockData';
+import { colors, spacing, radius, typography, shadow, colorForCountry } from '../theme';
+import { formatCurrency } from '../lib/format';
+import { useCoins } from '../context/CoinsContext';
+import { useAuth } from '../context/AuthContext';
 import DonutChart from '../components/DonutChart';
-import CoinAvatar from '../components/CoinAvatar';
+import CoinImage from '../components/CoinImage';
 
 function LegendRow({ item, total }) {
-  const color = countryColors[item.country] || countryColors.Other;
-  const pct = Math.round((item.value / total) * 100);
+  const pct = total > 0 ? Math.round((item.value / total) * 100) : 0;
   return (
     <View style={styles.legendRow}>
       <View style={styles.legendLeft}>
-        <View style={[styles.legendDot, { backgroundColor: color }]} />
-        <Text style={styles.legendCountry}>{item.country}</Text>
+        <View style={[styles.legendDot, { backgroundColor: item.color }]} />
+        <Text style={styles.legendCountry}>{item.label}</Text>
       </View>
       <View style={styles.legendRight}>
-        <Text style={styles.legendValue}>{formatCurrency(item.value)}</Text>
+        <Text style={styles.legendValue}>{formatCurrency(item.value, item.currency)}</Text>
         <Text style={styles.legendPct}>{pct}%</Text>
       </View>
     </View>
@@ -34,94 +37,139 @@ function TopCoinRow({ coin, rank }) {
   return (
     <View style={styles.topRow}>
       <Text style={styles.rank}>{rank}</Text>
-      <CoinAvatar size={44} tint={coin.tint} />
+      <CoinImage uri={coin.photo_url} size={44} tint="#2A2213" />
       <View style={styles.topInfo}>
         <Text style={styles.topName} numberOfLines={1}>
           {coin.name}
         </Text>
         <Text style={styles.topMeta}>
-          {coin.country} · {coin.year}
+          {[coin.country, coin.year].filter(Boolean).join(' · ')}
         </Text>
       </View>
-      <Text style={styles.topValue}>{formatCurrency(coin.value)}</Text>
+      <Text style={styles.topValue}>{formatCurrency(coin.value, coin.currency)}</Text>
     </View>
   );
 }
 
 export default function DashboardScreen() {
+  const { coins, loading, refresh } = useCoins();
+  const { signOut } = useAuth();
+
+  const currency = coins[0]?.currency || 'USD';
+  const total = coins.reduce((sum, c) => sum + (Number(c.value) || 0), 0);
+
+  // Value grouped by country → donut + legend.
+  const grouped = Object.values(
+    coins.reduce((acc, c) => {
+      const key = c.country || 'Unknown';
+      if (!acc[key]) acc[key] = { label: key, value: 0, count: 0 };
+      acc[key].value += Number(c.value) || 0;
+      acc[key].count += 1;
+      return acc;
+    }, {})
+  ).sort((a, b) => b.value - a.value);
+
+  const byCountry = grouped.map((g, i) => ({
+    ...g,
+    color: colorForCountry(g.label, i),
+    currency,
+  }));
+
+  const topCoins = [...coins].sort((a, b) => b.value - a.value).slice(0, 5);
+  const rarePlus = coins.filter(
+    (c) => c.rarity === 'legendary' || c.rarity === 'epic'
+  ).length;
+
+  const empty = !loading && coins.length === 0;
+
   return (
     <SafeAreaView style={styles.root} edges={['top']}>
       <ScrollView
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={refresh} tintColor={colors.gold} />
+        }
       >
-        {/* Header */}
         <View style={styles.header}>
           <View>
             <Text style={styles.greeting}>Your Vault</Text>
             <Text style={styles.subtitle}>Portfolio overview</Text>
           </View>
-          <View style={styles.avatarBadge}>
-            <Ionicons name="shield-checkmark" size={18} color={colors.gold} />
-          </View>
+          <Pressable style={styles.signOut} onPress={signOut} hitSlop={8}>
+            <Ionicons name="log-out-outline" size={18} color={colors.textSecondary} />
+          </Pressable>
         </View>
 
-        {/* Hero total value */}
         <View style={styles.heroCard}>
           <Text style={styles.heroLabel}>TOTAL COLLECTION VALUE</Text>
-          <Text style={styles.heroValue}>{formatCurrency(totalValue)}</Text>
-          <View style={styles.heroTrendRow}>
-            <View style={styles.heroTrend}>
-              <Ionicons name="trending-up" size={14} color={colors.positive} />
-              <Text style={styles.heroTrendText}>+$482 (4.2%)</Text>
-            </View>
-            <Text style={styles.heroTrendSub}>past 30 days</Text>
-          </View>
+          <Text style={styles.heroValue}>{formatCurrency(total, currency)}</Text>
           <View style={styles.heroStatsRow}>
             <View style={styles.heroStat}>
               <Text style={styles.heroStatValue}>{coins.length}</Text>
-              <Text style={styles.heroStatLabel}>Coins</Text>
+              <Text style={styles.heroStatLabel}>COINS</Text>
             </View>
             <View style={styles.heroStatDivider} />
             <View style={styles.heroStat}>
-              <Text style={styles.heroStatValue}>{valueByCountry.length}</Text>
-              <Text style={styles.heroStatLabel}>Countries</Text>
+              <Text style={styles.heroStatValue}>{byCountry.length}</Text>
+              <Text style={styles.heroStatLabel}>COUNTRIES</Text>
             </View>
             <View style={styles.heroStatDivider} />
             <View style={styles.heroStat}>
-              <Text style={styles.heroStatValue}>
-                {coins.filter((c) => c.rarity === 'legendary' || c.rarity === 'epic').length}
-              </Text>
-              <Text style={styles.heroStatLabel}>Rare+</Text>
+              <Text style={styles.heroStatValue}>{rarePlus}</Text>
+              <Text style={styles.heroStatLabel}>RARE+</Text>
             </View>
           </View>
         </View>
 
-        {/* Donut breakdown by country */}
-        <View style={styles.sectionCard}>
-          <Text style={styles.sectionTitle}>By Country</Text>
-          <View style={styles.donutWrap}>
-            <DonutChart data={valueByCountry} total={totalValue} size={200} />
+        {empty ? (
+          <View style={styles.emptyCard}>
+            <Ionicons name="stats-chart-outline" size={28} color={colors.gold} />
+            <Text style={styles.emptyTitle}>Nothing to chart yet</Text>
+            <Text style={styles.emptyBody}>
+              Scan your first coin and your portfolio breakdown will appear here.
+            </Text>
           </View>
-          <View style={styles.legend}>
-            {valueByCountry.map((item) => (
-              <LegendRow key={item.country} item={item} total={totalValue} />
-            ))}
+        ) : loading && coins.length === 0 ? (
+          <View style={styles.loadingCard}>
+            <ActivityIndicator color={colors.gold} />
           </View>
-        </View>
+        ) : (
+          <>
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>By Country</Text>
+              <View style={styles.donutWrap}>
+                <DonutChart
+                  data={byCountry}
+                  total={total}
+                  size={200}
+                  centerLabel="TOTAL"
+                  centerValue={formatCurrency(total, currency)}
+                  centerSub={`${byCountry.length} ${byCountry.length === 1 ? 'country' : 'countries'}`}
+                />
+              </View>
+              <View style={styles.legend}>
+                {byCountry.map((item) => (
+                  <LegendRow key={item.label} item={item} total={total} />
+                ))}
+              </View>
+            </View>
 
-        {/* Top 5 most valuable */}
-        <View style={styles.sectionCard}>
-          <View style={styles.sectionHeaderRow}>
-            <Text style={styles.sectionTitle}>Top 5 Most Valuable</Text>
-            <Ionicons name="trophy-outline" size={18} color={colors.gold} />
-          </View>
-          <View style={{ marginTop: spacing.sm }}>
-            {topCoins.map((coin, i) => (
-              <TopCoinRow key={coin.id} coin={coin} rank={i + 1} />
-            ))}
-          </View>
-        </View>
+            <View style={styles.section}>
+              <View style={styles.sectionHeaderRow}>
+                <Text style={styles.sectionTitle}>
+                  Top {Math.min(5, topCoins.length)} Most Valuable
+                </Text>
+                <Ionicons name="trophy-outline" size={18} color={colors.gold} />
+              </View>
+              <View style={{ marginTop: spacing.sm }}>
+                {topCoins.map((coin, i) => (
+                  <TopCoinRow key={coin.id} coin={coin} rank={i + 1} />
+                ))}
+              </View>
+            </View>
+          </>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -129,10 +177,7 @@ export default function DashboardScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
-  scroll: {
-    paddingHorizontal: spacing.xl,
-    paddingBottom: spacing.xxl,
-  },
+  scroll: { paddingHorizontal: spacing.xl, paddingBottom: spacing.xxl },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -142,18 +187,17 @@ const styles = StyleSheet.create({
   },
   greeting: { ...typography.title, color: colors.textPrimary },
   subtitle: { ...typography.label, color: colors.textSecondary, marginTop: 4 },
-  avatarBadge: {
+  signOut: {
     width: 42,
     height: 42,
     borderRadius: radius.pill,
-    backgroundColor: colors.goldSoft,
+    backgroundColor: colors.surface,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: colors.goldBorder,
+    borderColor: colors.border,
   },
 
-  // Hero
   heroCard: {
     backgroundColor: colors.surface,
     borderRadius: radius.lg,
@@ -163,28 +207,7 @@ const styles = StyleSheet.create({
     ...shadow.card,
   },
   heroLabel: { ...typography.caption, color: colors.textMuted },
-  heroValue: {
-    ...typography.hero,
-    color: colors.textPrimary,
-    marginTop: spacing.sm,
-  },
-  heroTrendRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-    marginTop: spacing.sm,
-  },
-  heroTrend: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    backgroundColor: colors.positive + '1F',
-    borderRadius: radius.pill,
-    paddingVertical: 4,
-    paddingHorizontal: 10,
-  },
-  heroTrendText: { ...typography.label, color: colors.positive },
-  heroTrendSub: { ...typography.label, color: colors.textMuted },
+  heroValue: { ...typography.hero, color: colors.textPrimary, marginTop: spacing.sm },
   heroStatsRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -198,8 +221,7 @@ const styles = StyleSheet.create({
   heroStatValue: { ...typography.heading, color: colors.gold },
   heroStatLabel: { ...typography.caption, color: colors.textMuted, marginTop: 3 },
 
-  // Section cards
-  sectionCard: {
+  section: {
     backgroundColor: colors.surface,
     borderRadius: radius.lg,
     padding: spacing.xl,
@@ -208,32 +230,18 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     ...shadow.card,
   },
-  sectionHeaderRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
+  sectionHeaderRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   sectionTitle: { ...typography.heading, color: colors.textPrimary },
   donutWrap: { alignItems: 'center', marginVertical: spacing.xl },
   legend: { gap: spacing.md },
-  legendRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  legendLeft: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
+  legendRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  legendLeft: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, flex: 1 },
   legendDot: { width: 12, height: 12, borderRadius: 6 },
-  legendCountry: { ...typography.body, color: colors.textPrimary },
+  legendCountry: { ...typography.body, color: colors.textPrimary, flexShrink: 1 },
   legendRight: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
   legendValue: { ...typography.body, color: colors.textPrimary, fontWeight: '700' },
-  legendPct: {
-    ...typography.label,
-    color: colors.textMuted,
-    width: 38,
-    textAlign: 'right',
-  },
+  legendPct: { ...typography.label, color: colors.textMuted, width: 38, textAlign: 'right' },
 
-  // Top coins
   topRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -242,14 +250,23 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
   },
-  rank: {
-    ...typography.heading,
-    color: colors.goldDeep,
-    width: 22,
-    textAlign: 'center',
-  },
-  topInfo: { flex: 1 },
+  rank: { ...typography.heading, color: colors.goldDeep, width: 22, textAlign: 'center' },
+  topInfo: { flex: 1, minWidth: 0 },
   topName: { ...typography.body, color: colors.textPrimary, fontWeight: '700' },
   topMeta: { ...typography.label, color: colors.textSecondary, marginTop: 2 },
   topValue: { ...typography.heading, color: colors.gold, fontSize: 17 },
+
+  emptyCard: {
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.xl,
+    marginTop: spacing.lg,
+    gap: spacing.sm,
+  },
+  emptyTitle: { ...typography.heading, color: colors.textPrimary, marginTop: spacing.sm },
+  emptyBody: { ...typography.body, color: colors.textSecondary, textAlign: 'center', lineHeight: 22 },
+  loadingCard: { padding: spacing.xxl, alignItems: 'center', marginTop: spacing.lg },
 });

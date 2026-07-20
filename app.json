@@ -15,17 +15,29 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.aureus.app"
+      "bundleIdentifier": "com.aureus.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Aureus uses the camera to scan and identify your coins."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#0B0B0F"
       },
-      "package": "com.aureus.app"
+      "package": "com.aureus.app",
+      "permissions": ["CAMERA"]
     },
     "web": {
       "favicon": "./assets/icon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Aureus uses the camera to scan and identify your coins."
+        }
+      ]
+    ]
   }
 }
