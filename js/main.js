@@ -30,18 +30,19 @@ function featureCards() {
   const cards = gsap.utils.toArray("[data-feature-card]");
   if (!cards.length) return;
 
-  gsap.timeline({
-    scrollTrigger: {
-      trigger: ".features",
-      start: "top 70%",
-      once: true,
-    },
-  }).to(cards, {
+  gsap.set(cards, { opacity: 0, y: 40 });
+
+  gsap.to(cards, {
     opacity: 1,
     y: 0,
     duration: 0.9,
     ease: "power3.out",
-    stagger: 0.18,
+    stagger: 0.15,
+    scrollTrigger: {
+      trigger: ".features",
+      start: "top 80%",
+      once: true,
+    },
   });
 }
 
