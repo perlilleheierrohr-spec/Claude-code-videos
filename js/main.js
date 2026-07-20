@@ -47,6 +47,51 @@ function featureCards() {
 }
 
 /* ==========================================================================
+   Feature cards — mouse-tracking 3D tilt + cursor-follow specular highlight
+   ========================================================================== */
+
+function featureTilt() {
+  const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (!canHover) return;
+
+  const MAX_TILT = 15;
+
+  document.querySelectorAll("[data-feature-card]").forEach((card) => {
+    const glow = card.querySelector("[data-feature-glow]");
+    const setRotateX = gsap.quickTo(card, "rotationX", { duration: 0.5, ease: "power2.out" });
+    const setRotateY = gsap.quickTo(card, "rotationY", { duration: 0.5, ease: "power2.out" });
+
+    const updateFromEvent = (e) => {
+      const rect = card.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width;
+      const py = (e.clientY - rect.top) / rect.height;
+
+      // Cursor left/above center tilts that edge toward the viewer.
+      setRotateY((px - 0.5) * 2 * MAX_TILT);
+      setRotateX((0.5 - py) * 2 * MAX_TILT);
+
+      if (glow) {
+        glow.style.setProperty("--mx", `${px * 100}%`);
+        glow.style.setProperty("--my", `${py * 100}%`);
+      }
+    };
+
+    card.addEventListener("mouseenter", (e) => {
+      if (glow) gsap.to(glow, { opacity: 1, duration: 0.25, ease: "power1.out" });
+      updateFromEvent(e);
+    });
+
+    card.addEventListener("mousemove", updateFromEvent);
+
+    card.addEventListener("mouseleave", () => {
+      setRotateX(0);
+      setRotateY(0);
+      if (glow) gsap.to(glow, { opacity: 0, duration: 0.4, ease: "power1.out" });
+    });
+  });
+}
+
+/* ==========================================================================
    Product demo — pinned for 300vh, three steps at equal scroll intervals
    ========================================================================== */
 
@@ -202,6 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   featureCards();
+  featureTilt();
   productDemo();
   horizontalTimeline();
   contactReveal();

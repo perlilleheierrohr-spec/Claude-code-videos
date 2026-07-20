@@ -373,22 +373,47 @@ h1, h2, h3, p { margin: 0; }
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+  perspective: 1200px;
 }
 
 .feature-card {
+  position: relative;
   background: linear-gradient(160deg, var(--navy-800), var(--navy-900));
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   padding: 36px 30px 40px;
   opacity: 0;
   transform: translateY(40px);
-  transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+  will-change: transform;
+  overflow: hidden;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
 .feature-card:hover {
   border-color: var(--line-strong);
-  transform: translateY(-4px);
   box-shadow: 0 20px 50px -24px rgba(91, 141, 239, 0.35);
+}
+
+/* Specular highlight that follows the cursor, driven by --mx / --my from JS */
+.feature-card-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    360px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, 0.16),
+    rgba(91, 141, 239, 0.08) 32%,
+    transparent 62%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+/* Keep icon/heading/copy painting above the glow overlay */
+.feature-card > *:not(.feature-card-glow) {
+  position: relative;
+  z-index: 1;
 }
 
 .feature-icon {
