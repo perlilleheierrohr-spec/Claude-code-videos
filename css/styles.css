@@ -309,6 +309,19 @@ h1, h2, h3, p { margin: 0; }
   z-index: -1;
 }
 
+/* Respect motion sensitivity: swap the looping video for its static poster */
+@media (prefers-reduced-motion: reduce) {
+  .hero-video {
+    display: none;
+  }
+
+  .hero-video-panel {
+    background-image: url("../assets/hero-poster.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+}
+
 .scroll-cue {
   position: relative;
   z-index: 1;
