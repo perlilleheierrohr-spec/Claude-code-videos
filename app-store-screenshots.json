@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 2,
+  "appName": "BlackSky Flight Radar",
+  "themeId": "blacksky",
+  "connectedCanvas": true,
+  "locales": [
+    "en"
+  ],
+  "locale": "en",
+  "device": "iphone",
+  "orientation": "portrait",
+  "appIcon": "/app-icon.png",
+  "slidesByDevice": {
+    "iphone": [
+      {
+        "id": "bs_hero",
+        "layout": "hero",
+        "label": {
+          "en": "LIVE RADAR"
+        },
+        "headline": {
+          "en": "Watch the sky\nin real time."
+        },
+        "screenshot": "/screenshots/apple/iphone/{locale}/01.png"
+      },
+      {
+        "id": "bs_search",
+        "layout": "device-top",
+        "label": {
+          "en": "INSTANT SEARCH"
+        },
+        "headline": {
+          "en": "Find any flight\nin seconds."
+        },
+        "screenshot": "/screenshots/apple/iphone/{locale}/02.png",
+        "inverted": true
+      },
+      {
+        "id": "bs_flights",
+        "layout": "device-bottom",
+        "label": {
+          "en": "GLOBAL COVERAGE"
+        },
+        "headline": {
+          "en": "Thousands of\naircraft, tracked live."
+        },
+        "screenshot": "/screenshots/apple/iphone/{locale}/03.png"
+      },
+      {
+        "id": "bs_airports",
+        "layout": "device-top",
+        "label": {
+          "en": "AIRPORT DIRECTORY"
+        },
+        "headline": {
+          "en": "Every airport,\none tap away."
+        },
+        "screenshot": "/screenshots/apple/iphone/{locale}/04.png"
+      }
+    ],
+    "android": [],
+    "ipad": [],
+    "android-7": [],
+    "android-10": [],
+    "feature-graphic": []
+  },
+  "crossScreenMockupsByDevice": {
+    "iphone": [],
+    "ipad": [],
+    "android": [],
+    "android-7": [],
+    "android-10": [],
+    "feature-graphic": []
+  }
+}
