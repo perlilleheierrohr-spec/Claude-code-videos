@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "Aureus",
+    "slug": "aureus",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "scheme": "aureus",
+    "backgroundColor": "#0B0B0F",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0B0B0F"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.aureus.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Aureus uses the camera to scan and identify your coins."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#0B0B0F"
+      },
+      "package": "com.aureus.app",
+      "permissions": ["CAMERA"]
+    },
+    "web": {
+      "favicon": "./assets/icon.png"
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Aureus uses the camera to scan and identify your coins."
+        }
+      ]
+    ]
+  }
+}
