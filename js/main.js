@@ -47,6 +47,39 @@ function featureCards() {
 }
 
 /* ==========================================================================
+   Product demo — pinned for 300vh, three steps at equal scroll intervals
+   ========================================================================== */
+
+function productDemo() {
+  const mockup = document.querySelector("[data-demo-mockup]");
+  const ring = document.querySelector("[data-demo-ring]");
+  const results = document.querySelector("[data-demo-results]");
+  if (!mockup || !ring || !results) return;
+
+  gsap.set(mockup, { opacity: 0 });
+  gsap.set(ring, { opacity: 0, scale: 0.9 });
+  gsap.set(results, { opacity: 0, x: 60 });
+
+  gsap
+    .timeline({
+      scrollTrigger: {
+        trigger: ".product-demo",
+        start: "top top",
+        end: () => "+=" + window.innerHeight * 3,
+        pin: true,
+        scrub: 1,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+      },
+    })
+    // Three equal-length steps (duration 1 each) across the pinned range:
+    // step 1 mockup fade-in, step 2 metric ring, step 3 results card slide-in.
+    .to(mockup, { opacity: 1, duration: 1, ease: "power1.out" }, 0)
+    .to(ring, { opacity: 1, scale: 1, duration: 1, ease: "power1.out" }, 1)
+    .to(results, { opacity: 1, x: 0, duration: 1, ease: "power1.out" }, 2);
+}
+
+/* ==========================================================================
    Horizontal scroll — product timeline pinned & scrubbed
    ========================================================================== */
 
@@ -162,10 +195,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (prefersReducedMotion) {
     gsap.set("[data-feature-card]", { opacity: 1, y: 0 });
+    gsap.set("[data-demo-mockup]", { opacity: 1 });
+    gsap.set("[data-demo-ring]", { opacity: 1, scale: 1 });
+    gsap.set("[data-demo-results]", { opacity: 1, x: 0 });
     return;
   }
 
   featureCards();
+  productDemo();
   horizontalTimeline();
   contactReveal();
 });
