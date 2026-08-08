@@ -13,25 +13,33 @@ npm run dev
 Åpne http://localhost:3000. (Ingen `npm install` nødvendig — dev-serveren er en
 liten Node-fil uten avhengigheter. Krever Node 18+.)
 
-## Legg inn bildene
+## Bildene
 
-De seks PNG-ene skal ligge i `public/images/` med disse navnene:
-
-`base.png`, `chicken.png`, `avocado.png`, `mozzarella.png`, `tomato.png`, `cucumber.png`
-
-Se `public/images/README.md`. Salt har ingen PNG og vises kun som tekst.
+De seks PNG-ene ligger i `public/images/`. Alle har ekte gjennomsiktig
+bakgrunn (RGBA). Salt har ingen PNG og vises kun som tekst i lista.
 
 ## Justere dandering
 
-To steder styrer hvordan toppingene ligger:
+Moseflaten er målt direkte ut av `base.png`: en ellipse med sentrum i
+(50.2 %, 50.1 %) og radius 41.8 % × 37.3 % av bildet. To steder styrer
+hvordan toppingene ligger:
 
-- **`public/styles.css` → `.plate`** — det usynlige feltet toppingene plasseres
-  innenfor, altså selve moseflaten. Havner toppingene utenfor mosen i ditt
-  `base.png`, juster `left/right/top/bottom` her.
-- **`public/app.js` → `INGREDIENSER[].lag`** — hvert lag har `x`/`y` (senter i
-  prosent av moseflaten), `w` (bredde i prosent), `r` (rotasjon) og `z`
-  (stablerekkefølge). Avokado har to lag for et fyldigere resultat; legg gjerne
-  til flere.
+- **`public/styles.css` → `.plate`** — moseflaten, altså ikke hele skåla.
+  Insettene er satt til den målte ellipsen. Bytter du ut `base.png` med et
+  annet bilde, er det disse som må justeres (og `aspect-ratio` på
+  `.forhandsvisning`, som følger bildets sideforhold).
+- **`public/app.js` → `INGREDIENSER[].lag`** — hvert lag har:
+  - `x`, `y` — punktet der haugen **hviler** på mosen, i prosent av
+    moseflaten. Bildet ankres på nedre midtpunkt, så haugen ser ut til å stå
+    på flaten. Et punkt ligger på mosen når
+    `((x-50)/50)² + ((y-50)/50)² < 1`.
+  - `w` — bredde i prosent av moseflatens bredde.
+  - `r` — rotasjon, `z` — stablerekkefølge (følger `y`, så det som ligger
+    lengst fram havner øverst).
+
+Størrelsene er kalibrert mot skåla: moseflaten er ca. 941 px bred i bildet og
+tilsvarer ca. 22 cm, altså rundt 43 px/cm. Kylling- og avokadobildet viser
+bare fire biter hver, så begge brukes to ganger for å se ut som en hel porsjon.
 
 ## Innsending
 

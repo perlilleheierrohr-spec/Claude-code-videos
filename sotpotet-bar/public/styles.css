@@ -75,14 +75,15 @@ h1 {
   margin-bottom: 22px;
 }
 
+/* Samme sideforhold som base.png (1126×852), så skåla fyller rammen presist */
 .forhandsvisning {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1126 / 852;
   border-radius: 22px;
   overflow: hidden;
   background:
-    radial-gradient(60% 55% at 50% 58%, #ffe6c8 0%, #ffd7ad 55%, #f6c896 100%);
+    radial-gradient(58% 62% at 50% 52%, #ffe8cc 0%, #ffd7ad 58%, #f4c391 100%);
 }
 
 /* Bunnlaget: mosen i skåla, fyller det meste av flaten */
@@ -97,37 +98,42 @@ h1 {
 }
 
 /*
-  .plate er det usynlige feltet toppingene dandres innenfor —
-  altså selve moseflaten, ikke hele skåla. Juster insettene her
-  hvis toppingene havner utenfor mosen i ditt base.png.
+  .plate er moseflaten — ikke hele skåla. Insettene er målt direkte
+  ut av base.png: mosen er en ellipse som spenner fra 8.4 % til 92.0 %
+  vannrett og 12.8 % til 87.4 % loddrett. Toppingene plasseres innenfor
+  denne ellipsen (se posisjonene i app.js).
 */
 .plate {
   position: absolute;
-  left: 19%;
-  right: 19%;
-  top: 24%;
-  bottom: 26%;
+  left: 8.4%;
+  right: 8.0%;
+  top: 12.8%;
+  bottom: 12.6%;
   z-index: 2;
   pointer-events: none;
 }
 
-/* Ett topping-lag. Posisjon settes via --x / --y / --w / --r fra app.js */
+/*
+  Ett topping-lag. --x/--y er punktet der haugen HVILER på mosen, så
+  bildet ankres på nedre midtpunkt — da ser det ut til å stå på flaten
+  i stedet for å sveve. --w er bredde i prosent av moseflaten.
+*/
 .topping {
   position: absolute;
   left: var(--x);
   top: var(--y);
   width: var(--w);
   z-index: var(--z, 3);
-  transform: translate(-50%, -50%) rotate(var(--r, 0deg)) scale(1);
-  transform-origin: center;
-  filter: drop-shadow(0 4px 8px rgba(74, 38, 18, .28));
+  transform: translate(-50%, -100%) rotate(var(--r, 0deg));
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 3px 5px rgba(74, 38, 18, .22));
   opacity: 0;
-  animation: legg-paa .32s cubic-bezier(.34, 1.4, .64, 1) forwards;
+  animation: legg-paa .34s cubic-bezier(.34, 1.4, .64, 1) forwards;
 }
 
 @keyframes legg-paa {
-  from { opacity: 0; transform: translate(-50%, -62%) rotate(var(--r, 0deg)) scale(.82); }
-  to   { opacity: 1; transform: translate(-50%, -50%) rotate(var(--r, 0deg)) scale(1); }
+  from { opacity: 0; transform: translate(-50%, -118%) rotate(var(--r, 0deg)) scale(.86); }
+  to   { opacity: 1; transform: translate(-50%, -100%) rotate(var(--r, 0deg)) scale(1); }
 }
 
 @media (prefers-reduced-motion: reduce) {

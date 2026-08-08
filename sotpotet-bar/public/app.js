@@ -4,13 +4,20 @@ const FORMSPREE_URL = "https://formspree.io/f/xqpzeloo";
 
 /*
   Ingrediensene. `lag` beskriver hvor bildet legges oppå mosen:
-    x, y  = senterpunkt i prosent av moseflaten (.plate i styles.css)
-    w     = bredde i prosent av moseflaten
-    r     = rotasjon
-    z     = stablerekkefølge (høyere = lenger fram)
 
-  Avokadobildet er sparsomt (kun 4 biter), så det brukes to ganger —
-  rotert og litt ulikt skalert — for et fyldigere resultat.
+    x, y  Punktet der haugen HVILER på mosen, i prosent av moseflaten.
+          Moseflaten er en ellipse med sentrum i (50, 50) og radius 50
+          begge veier, så et punkt ligger på mosen når
+          ((x-50)/50)² + ((y-50)/50)² < 1. Alle punktene under ligger
+          godt innenfor, slik at ingenting havner oppå skålkanten.
+    w     Bredde i prosent av moseflatens bredde.
+    r     Rotasjon.
+    z     Stablerekkefølge. Følger y: det som hviler lengst fram
+          (høy y) ligger øverst, slik perspektivet i bildet tilsier.
+
+  Både avokado- og kyllingbildet viser bare fire biter hver. De brukes
+  derfor to ganger, i litt ulik størrelse og rotasjon, så porsjonene
+  ser ut som 227 g kylling og en halv avokado — ikke fire biter.
 */
 const INGREDIENSER = [
   {
@@ -18,7 +25,10 @@ const INGREDIENSER = [
     navn: "Kyllingfilet",
     mengde: "227 g",
     bilde: "images/chicken.png",
-    lag: [{ x: 48, y: 44, w: 62, r: -8, z: 3 }],
+    lag: [
+      { x: 70, y: 46, w: 46, r: 4, z: 4 },
+      { x: 48, y: 72, w: 43, r: -5, z: 7 },
+    ],
   },
   {
     id: "avokado",
@@ -26,8 +36,8 @@ const INGREDIENSER = [
     mengde: "1/2",
     bilde: "images/avocado.png",
     lag: [
-      { x: 22, y: 30, w: 42, r: -14, z: 6 },
-      { x: 76, y: 68, w: 38, r: 166, z: 6 },
+      { x: 72, y: 66, w: 44, r: -6, z: 6 },
+      { x: 38, y: 84, w: 44, r: 7, z: 9 },
     ],
   },
   {
@@ -35,21 +45,21 @@ const INGREDIENSER = [
     navn: "Mozzarella",
     mengde: "35 g",
     bilde: "images/mozzarella.png",
-    lag: [{ x: 70, y: 27, w: 44, r: 10, z: 4 }],
+    lag: [{ x: 32, y: 38, w: 40, r: -3, z: 3 }],
   },
   {
     id: "tomat",
     navn: "Tomat",
     mengde: "40 g",
     bilde: "images/tomato.png",
-    lag: [{ x: 26, y: 72, w: 38, r: -6, z: 5 }],
+    lag: [{ x: 27, y: 60, w: 44, r: 3, z: 5 }],
   },
   {
     id: "agurk",
     navn: "Agurk",
     mengde: "20 g",
     bilde: "images/cucumber.png",
-    lag: [{ x: 55, y: 84, w: 36, r: 8, z: 5 }],
+    lag: [{ x: 73, y: 78, w: 34, r: -4, z: 8 }],
   },
   {
     id: "salt",
