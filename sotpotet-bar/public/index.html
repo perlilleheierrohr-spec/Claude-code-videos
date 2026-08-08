@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Søtpotet-baren</title>
+  <meta name="description" content="Sett sammen din egen søtpotetmos med tilbehør — og se retten bygge seg opp mens du velger." />
+  <meta name="theme-color" content="#7a3b16" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍠</text></svg>" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="topp">
+      <p class="kicker">Familiens</p>
+      <h1>Søtpotet&shy;baren</h1>
+      <p class="ingress">Kryss av for det du vil ha oppå mosen — retten bygger seg opp mens du velger.</p>
+    </header>
+
+    <!-- ── Live forhåndsvisning ─────────────────────────────────────── -->
+    <section class="forhandsvisning-kort" aria-label="Forhåndsvisning av retten">
+      <div class="forhandsvisning" id="forhandsvisning">
+        <img class="lag lag-base" src="images/base.png" alt="Søtpotetmos i en svart skål" />
+        <!-- Toppinglagene settes inn her av app.js -->
+        <div class="plate" id="plate" aria-hidden="true"></div>
+      </div>
+      <p class="forhandsvisning-tekst" id="forhandsvisningTekst">Søtpotetmos</p>
+    </section>
+
+    <!-- ── Skjema ───────────────────────────────────────────────────── -->
+    <form id="skjema" class="kort" novalidate>
+
+      <div class="felt">
+        <label for="navn">Hvem lager vi til?</label>
+        <input
+          type="text"
+          id="navn"
+          name="navn"
+          placeholder="Skriv navnet ditt"
+          autocomplete="name"
+          required
+        />
+        <p class="feilmelding" id="navnFeil" hidden>Skriv inn navnet ditt først 🙂</p>
+      </div>
+
+      <fieldset class="felt">
+        <legend>Velg tilbehør</legend>
+        <ul class="ingredienser" id="ingredienser">
+          <li class="ingrediens ingrediens--las">
+            <label>
+              <input type="checkbox" checked disabled />
+              <span class="boks" aria-hidden="true"></span>
+              <span class="navn">Søtpotetmos</span>
+              <span class="mengde">alltid med</span>
+            </label>
+          </li>
+          <!-- Resten settes inn av app.js -->
+        </ul>
+      </fieldset>
+
+      <button type="submit" class="send" id="sendKnapp">Send inn bestillingen</button>
+
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </form>
+
+    <footer class="bunn">Laget på kjøkkenet 🍠</footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "sotpotet-bar",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Familiens søtpotet-bar — velg tilbehør og se retten bygge seg opp live.",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev-server.mjs",
+    "start": "node scripts/dev-server.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

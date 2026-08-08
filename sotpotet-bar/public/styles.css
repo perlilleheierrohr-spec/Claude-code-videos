@@ -1,0 +1,354 @@
+/* ── Palett ─────────────────────────────────────────────────────────── */
+:root {
+  --krem:        #fff6ec;
+  --krem-dyp:    #ffeada;
+  --papir:       #fffdfa;
+  --oransje:     #e8722b;
+  --oransje-mork:#c8551a;
+  --brun:        #4a2612;
+  --brun-lys:    #7a4a2c;
+  --kant:        #e9d3bd;
+  --gronn:       #4b7f4a;
+
+  --radius:      20px;
+  --skygge:      0 10px 30px rgba(74, 38, 18, .10);
+  --skygge-dyp:  0 18px 44px rgba(74, 38, 18, .18);
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 24px 16px 48px;
+  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  color: var(--brun);
+  background:
+    radial-gradient(900px 500px at 50% -10%, #ffd9b0 0%, transparent 60%),
+    linear-gradient(170deg, var(--krem) 0%, var(--krem-dyp) 100%);
+  background-attachment: fixed;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ── Topp ───────────────────────────────────────────────────────────── */
+.topp { text-align: center; margin-bottom: 22px; }
+
+.kicker {
+  margin: 0;
+  font-size: .78rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--oransje-mork);
+  font-weight: 700;
+}
+
+h1 {
+  margin: 4px 0 8px;
+  font-size: clamp(2.1rem, 9vw, 2.9rem);
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  color: var(--brun);
+}
+
+.ingress {
+  margin: 0 auto;
+  max-width: 34ch;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--brun-lys);
+}
+
+/* ── Forhåndsvisning ────────────────────────────────────────────────── */
+.forhandsvisning-kort {
+  background: var(--papir);
+  border: 1px solid var(--kant);
+  border-radius: 28px;
+  box-shadow: var(--skygge-dyp);
+  padding: 14px 14px 8px;
+  margin-bottom: 22px;
+}
+
+.forhandsvisning {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 22px;
+  overflow: hidden;
+  background:
+    radial-gradient(60% 55% at 50% 58%, #ffe6c8 0%, #ffd7ad 55%, #f6c896 100%);
+}
+
+/* Bunnlaget: mosen i skåla, fyller det meste av flaten */
+.lag-base {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 1;
+  filter: drop-shadow(0 10px 18px rgba(74, 38, 18, .22));
+}
+
+/*
+  .plate er det usynlige feltet toppingene dandres innenfor —
+  altså selve moseflaten, ikke hele skåla. Juster insettene her
+  hvis toppingene havner utenfor mosen i ditt base.png.
+*/
+.plate {
+  position: absolute;
+  left: 19%;
+  right: 19%;
+  top: 24%;
+  bottom: 26%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Ett topping-lag. Posisjon settes via --x / --y / --w / --r fra app.js */
+.topping {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--w);
+  z-index: var(--z, 3);
+  transform: translate(-50%, -50%) rotate(var(--r, 0deg)) scale(1);
+  transform-origin: center;
+  filter: drop-shadow(0 4px 8px rgba(74, 38, 18, .28));
+  opacity: 0;
+  animation: legg-paa .32s cubic-bezier(.34, 1.4, .64, 1) forwards;
+}
+
+@keyframes legg-paa {
+  from { opacity: 0; transform: translate(-50%, -62%) rotate(var(--r, 0deg)) scale(.82); }
+  to   { opacity: 1; transform: translate(-50%, -50%) rotate(var(--r, 0deg)) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topping { animation: none; opacity: 1; }
+}
+
+.forhandsvisning-tekst {
+  margin: 12px 4px 6px;
+  text-align: center;
+  font-size: .92rem;
+  line-height: 1.45;
+  color: var(--brun-lys);
+  min-height: 1.4em;
+}
+
+/* ── Kort / skjema ──────────────────────────────────────────────────── */
+.kort {
+  background: var(--papir);
+  border: 1px solid var(--kant);
+  border-radius: var(--radius);
+  box-shadow: var(--skygge);
+  padding: 20px 18px 22px;
+}
+
+.felt { margin: 0 0 20px; border: 0; padding: 0; }
+
+label[for="navn"],
+legend {
+  display: block;
+  padding: 0;
+  margin-bottom: 10px;
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: var(--brun);
+}
+
+#navn {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1.05rem;
+  font-family: inherit;
+  color: var(--brun);
+  background: var(--krem);
+  border: 2px solid var(--kant);
+  border-radius: 14px;
+  transition: border-color .15s, box-shadow .15s;
+}
+
+#navn::placeholder { color: #bda28c; }
+
+#navn:focus {
+  outline: none;
+  border-color: var(--oransje);
+  box-shadow: 0 0 0 4px rgba(232, 114, 43, .18);
+}
+
+#navn.har-feil { border-color: #c0392b; }
+
+.feilmelding {
+  margin: 8px 2px 0;
+  font-size: .88rem;
+  font-weight: 600;
+  color: #c0392b;
+}
+
+/* ── Ingrediensliste ────────────────────────────────────────────────── */
+.ingredienser {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.ingrediens label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 15px;
+  background: var(--krem);
+  border: 2px solid var(--kant);
+  border-radius: 14px;
+  cursor: pointer;
+  user-select: none;
+  transition: background .15s, border-color .15s, transform .1s;
+}
+
+.ingrediens label:active { transform: scale(.99); }
+
+/* Selve checkboxen skjules — .boks tegnes i stedet */
+.ingrediens input {
+  position: absolute;
+  width: 1px; height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.boks {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border: 2px solid #d9bda2;
+  border-radius: 8px;
+  background: #fff;
+  position: relative;
+  transition: background .15s, border-color .15s;
+}
+
+.boks::after {
+  content: "";
+  position: absolute;
+  left: 8px; top: 3px;
+  width: 6px; height: 12px;
+  border: solid #fff;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg) scale(0);
+  transition: transform .15s cubic-bezier(.34, 1.5, .64, 1);
+}
+
+.ingrediens input:checked ~ .boks {
+  background: var(--oransje);
+  border-color: var(--oransje);
+}
+
+.ingrediens input:checked ~ .boks::after { transform: rotate(45deg) scale(1); }
+
+.ingrediens input:checked ~ .navn { font-weight: 700; }
+
+.ingrediens:has(input:checked) label {
+  background: #fff1e1;
+  border-color: var(--oransje);
+}
+
+.ingrediens input:focus-visible ~ .boks {
+  outline: 3px solid rgba(232, 114, 43, .45);
+  outline-offset: 2px;
+}
+
+.navn { flex: 1 1 auto; font-size: 1.02rem; }
+
+.mengde {
+  flex: 0 0 auto;
+  font-size: .86rem;
+  font-weight: 600;
+  color: var(--brun-lys);
+  background: #fff;
+  border: 1px solid var(--kant);
+  border-radius: 999px;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+/* Låst rad (søtpotetmos) */
+.ingrediens--las label {
+  cursor: default;
+  background: #f3e6d7;
+  border-style: dashed;
+  border-color: #d9bda2;
+  opacity: .95;
+}
+
+.ingrediens--las input:checked ~ .boks {
+  background: var(--brun-lys);
+  border-color: var(--brun-lys);
+}
+
+.ingrediens--las .navn { font-weight: 700; }
+
+/* ── Knapp + status ─────────────────────────────────────────────────── */
+.send {
+  width: 100%;
+  padding: 17px 20px;
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(180deg, var(--oransje) 0%, var(--oransje-mork) 100%);
+  border: 0;
+  border-radius: 16px;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(200, 85, 26, .32);
+  transition: transform .1s, box-shadow .15s, filter .15s;
+}
+
+.send:hover { filter: brightness(1.05); }
+.send:active { transform: translateY(2px); box-shadow: 0 4px 10px rgba(200, 85, 26, .3); }
+
+.send:focus-visible {
+  outline: 3px solid rgba(232, 114, 43, .5);
+  outline-offset: 3px;
+}
+
+.send[disabled] {
+  cursor: progress;
+  filter: saturate(.55) brightness(1.02);
+  box-shadow: none;
+}
+
+.status {
+  margin: 14px 0 0;
+  text-align: center;
+  font-size: .98rem;
+  font-weight: 600;
+  line-height: 1.5;
+  min-height: 1.4em;
+}
+
+.status.ok { color: var(--gronn); }
+.status.feil { color: #c0392b; }
+
+.bunn {
+  margin-top: 26px;
+  text-align: center;
+  font-size: .85rem;
+  color: #a98a70;
+}
+
+/* ── Litt større skjermer ───────────────────────────────────────────── */
+@media (min-width: 640px) {
+  body { padding-top: 40px; }
+  .kort { padding: 26px 24px 28px; }
+  .ingredienser { grid-template-columns: 1fr 1fr; }
+  .ingrediens--las { grid-column: 1 / -1; }
+}
