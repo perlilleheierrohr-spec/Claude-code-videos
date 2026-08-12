@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "appName": "BlackSky Flight Radar",
-  "themeId": "blacksky",
+  "appName": "Hydro – Daily Water Tracker",
+  "themeId": "hydro",
   "connectedCanvas": true,
   "locales": [
     "en"
@@ -9,53 +9,64 @@
   "locale": "en",
   "device": "iphone",
   "orientation": "portrait",
-  "appIcon": "/app-icon.png",
+  "appIcon": "",
   "slidesByDevice": {
     "iphone": [
       {
-        "id": "bs_hero",
+        "id": "hy_hero",
         "layout": "hero",
         "label": {
-          "en": "LIVE RADAR"
+          "en": "MEET HYDRO"
         },
         "headline": {
-          "en": "Watch the sky\nin real time."
+          "en": "Your hydration\nbuddy is here."
         },
-        "screenshot": "/screenshots/apple/iphone/{locale}/01.png"
+        "screenshot": "/screenshots/hydro/{locale}/01.png"
       },
       {
-        "id": "bs_search",
-        "layout": "device-top",
+        "id": "hy_log",
+        "layout": "device-bottom",
         "label": {
-          "en": "INSTANT SEARCH"
+          "en": "ONE-TAP LOGGING"
         },
         "headline": {
-          "en": "Find any flight\nin seconds."
+          "en": "Log every sip\nin one tap."
         },
-        "screenshot": "/screenshots/apple/iphone/{locale}/02.png",
+        "screenshot": "/screenshots/hydro/{locale}/02.png"
+      },
+      {
+        "id": "hy_streak",
+        "layout": "device-top",
+        "label": {
+          "en": "BUILD A STREAK"
+        },
+        "headline": {
+          "en": "Keep your\nstreak alive."
+        },
+        "screenshot": "/screenshots/hydro/{locale}/03.png",
         "inverted": true
       },
       {
-        "id": "bs_flights",
+        "id": "hy_history",
         "layout": "device-bottom",
         "label": {
-          "en": "GLOBAL COVERAGE"
+          "en": "YOUR PROGRESS"
         },
         "headline": {
-          "en": "Thousands of\naircraft, tracked live."
+          "en": "Every day,\nat a glance."
         },
-        "screenshot": "/screenshots/apple/iphone/{locale}/03.png"
+        "screenshot": "/screenshots/hydro/{locale}/04.png"
       },
       {
-        "id": "bs_airports",
+        "id": "hy_settings",
         "layout": "device-top",
         "label": {
-          "en": "AIRPORT DIRECTORY"
+          "en": "MADE FOR YOU"
         },
         "headline": {
-          "en": "Every airport,\none tap away."
+          "en": "Your goal.\nYour rules."
         },
-        "screenshot": "/screenshots/apple/iphone/{locale}/04.png"
+        "screenshot": "/screenshots/hydro/{locale}/05.png"
       }
     ],
     "android": [],

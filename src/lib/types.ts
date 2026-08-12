@@ -74,7 +74,8 @@ export type ThemeId =
   | "warm-editorial"
   | "ocean-fresh"
   | "bloom-roast"
-  | "blacksky";
+  | "blacksky"
+  | "hydro";
 
 export type Theme = {
   id: string;

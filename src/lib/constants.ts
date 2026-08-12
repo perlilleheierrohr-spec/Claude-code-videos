@@ -144,6 +144,16 @@ export const THEMES: Record<string, Theme> = {
     accent: "#2FE6A8",
     muted: "#7C8A93",
   },
+  hydro: {
+    id: "hydro",
+    name: "Hydro Water",
+    bg: "#E9EEF6",
+    bgAlt: "#1E2A44",
+    fg: "#1E2A44",
+    fgAlt: "#F4F8FD",
+    accent: "#4E86E8",
+    muted: "#6B7A93",
+  },
 };
 
 export function themeById(themeId: string | undefined): Theme {
