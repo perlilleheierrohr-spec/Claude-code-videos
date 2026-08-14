@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "appName": "Hydro – Daily Water Tracker",
-  "themeId": "hydro",
+  "themeId": "hydro-wave",
   "connectedCanvas": true,
   "locales": [
     "en"
@@ -13,60 +13,38 @@
   "slidesByDevice": {
     "iphone": [
       {
-        "id": "hy_hero",
+        "id": "hw_today",
         "layout": "hero",
         "label": {
-          "en": "MEET HYDRO"
+          "en": "STAY HYDRATED"
         },
         "headline": {
-          "en": "Your hydration\nbuddy is here."
+          "en": "Watch your day\nfill up."
         },
-        "screenshot": "/screenshots/hydro/{locale}/01.png"
+        "screenshot": "/screenshots/hydro-wave/{locale}/01.png"
       },
       {
-        "id": "hy_log",
-        "layout": "device-bottom",
-        "label": {
-          "en": "ONE-TAP LOGGING"
-        },
-        "headline": {
-          "en": "Log every sip\nin one tap."
-        },
-        "screenshot": "/screenshots/hydro/{locale}/02.png"
-      },
-      {
-        "id": "hy_streak",
+        "id": "hw_history",
         "layout": "device-top",
         "label": {
-          "en": "BUILD A STREAK"
+          "en": "YOUR WEEK"
         },
         "headline": {
-          "en": "Keep your\nstreak alive."
+          "en": "Every glass,\nremembered."
         },
-        "screenshot": "/screenshots/hydro/{locale}/03.png",
+        "screenshot": "/screenshots/hydro-wave/{locale}/02.png",
         "inverted": true
       },
       {
-        "id": "hy_history",
+        "id": "hw_me",
         "layout": "device-bottom",
         "label": {
-          "en": "YOUR PROGRESS"
+          "en": "MADE YOUR WAY"
         },
         "headline": {
-          "en": "Every day,\nat a glance."
+          "en": "Your goal.\nYour cups."
         },
-        "screenshot": "/screenshots/hydro/{locale}/04.png"
-      },
-      {
-        "id": "hy_settings",
-        "layout": "device-top",
-        "label": {
-          "en": "MADE FOR YOU"
-        },
-        "headline": {
-          "en": "Your goal.\nYour rules."
-        },
-        "screenshot": "/screenshots/hydro/{locale}/05.png"
+        "screenshot": "/screenshots/hydro-wave/{locale}/03.png"
       }
     ],
     "android": [],
