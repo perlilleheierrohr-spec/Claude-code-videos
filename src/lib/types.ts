@@ -76,7 +76,8 @@ export type ThemeId =
   | "bloom-roast"
   | "blacksky"
   | "hydro"
-  | "hydro-wave";
+  | "hydro-wave"
+  | "watro";
 
 export type Theme = {
   id: string;

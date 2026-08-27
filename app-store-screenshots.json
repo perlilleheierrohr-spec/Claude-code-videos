@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "appName": "Hydro – Daily Water Tracker",
-  "themeId": "hydro-wave",
+  "appName": "Watro",
+  "themeId": "watro",
   "connectedCanvas": true,
   "locales": [
     "en"
@@ -13,38 +13,60 @@
   "slidesByDevice": {
     "iphone": [
       {
-        "id": "hw_today",
+        "id": "wa_today",
         "layout": "hero",
         "label": {
-          "en": "STAY HYDRATED"
+          "en": "STAY ON TRACK"
         },
         "headline": {
           "en": "Watch your day\nfill up."
         },
-        "screenshot": "/screenshots/hydro-wave/{locale}/01.png"
+        "screenshot": "/screenshots/watro/{locale}/01.png"
       },
       {
-        "id": "hw_history",
+        "id": "wa_drinks",
+        "layout": "device-bottom",
+        "label": {
+          "en": "ANY DRINK COUNTS"
+        },
+        "headline": {
+          "en": "Coffee counts.\nSo does juice."
+        },
+        "screenshot": "/screenshots/watro/{locale}/02.png"
+      },
+      {
+        "id": "wa_insights",
         "layout": "device-top",
+        "label": {
+          "en": "KNOW YOUR HABITS"
+        },
+        "headline": {
+          "en": "See when you\nactually drink."
+        },
+        "screenshot": "/screenshots/watro/{locale}/03.png",
+        "inverted": true
+      },
+      {
+        "id": "wa_history",
+        "layout": "device-bottom",
         "label": {
           "en": "YOUR WEEK"
         },
         "headline": {
           "en": "Every glass,\nremembered."
         },
-        "screenshot": "/screenshots/hydro-wave/{locale}/02.png",
-        "inverted": true
+        "screenshot": "/screenshots/watro/{locale}/04.png"
       },
       {
-        "id": "hw_me",
-        "layout": "device-bottom",
+        "id": "wa_streak",
+        "layout": "device-top",
         "label": {
-          "en": "MADE YOUR WAY"
+          "en": "KEEP IT GOING"
         },
         "headline": {
-          "en": "Your goal.\nYour cups."
+          "en": "Never break\nthe streak."
         },
-        "screenshot": "/screenshots/hydro-wave/{locale}/03.png"
+        "screenshot": "/screenshots/watro/{locale}/05.png"
       }
     ],
     "android": [],

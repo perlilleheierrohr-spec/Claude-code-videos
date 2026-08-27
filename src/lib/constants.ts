@@ -165,6 +165,16 @@ export const THEMES: Record<string, Theme> = {
     accent: "#1F86FF",
     muted: "#7A8AA0",
   },
+  watro: {
+    id: "watro",
+    name: "Watro",
+    bg: "#E6F1FF",
+    bgAlt: "#0A47A1",
+    fg: "#0A1020",
+    fgAlt: "#FFFFFF",
+    accent: "#1478FF",
+    muted: "#76869B",
+  },
 };
 
 export function themeById(themeId: string | undefined): Theme {
